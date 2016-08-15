@@ -13,15 +13,94 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
   <link rel="stylesheet" href="css/prefixed/app.css">
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+	<script type="text/javascript">
+	function handleLoad(evt){
+		createCalendarStartingFrom();
+	}
+	function createCalendarStartingFrom(startDate = new Date(2016,0,1)){
+		var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]; 
+		var thisDate = new Date();
+		while(thisDate.getDate() !== 1){
+			thisDate.setDate(thisDate.getDate() + 1);
+		}
+		thisDate.setDate(thisDate.getDate() - 1);
+		while(thisDate >= startDate){
+			var thisYear = thisDate.getFullYear();
+			var yearDiv = document.getElementById(thisYear);
+			if(!yearDiv){
+				yearDiv = document.createElement("div");
+				yearDiv.id = thisYear;
+				yearDiv.className = "year";
+				document.body.appendChild(yearDiv);
+			}
+			var thisMonth = thisDate.getMonth();
+			var monthName = monthNames[thisMonth];
+			var isoMonth = isoDayOrMonth(thisMonth + 1);
+			
+			var monthDiv = document.getElementById(thisYear + "-" + isoMonth);
+			if(!monthDiv){
+				monthDiv = document.createElement("div");
+				monthDiv.id = thisYear + "-" + isoMonth;
+				monthDiv.className = "month";
+				monthDiv.innerHTML = '<div class="title"><div class="title-text">' + monthName + '</div></div><div class="days"></div>';
+				yearDiv.appendChild(monthDiv);
+			}
+			addDay(thisDate, monthDiv);
+			
+			if(thisDate.getDate() === 1 && thisDate.getDay() !== 0){
+				
+				var weekDate = new Date(thisDate);
+				weekDate.setDate(weekDate.getDate()-1);
+				while(weekDate.getDay() !== 6){
+					
+					addDay(weekDate, monthDiv, true);
+					weekDate.setDate(weekDate.getDate()-1);
+					console.log(monthName + " " + weekDate.getDay());
+				}
+			}
+			thisDate.setDate(thisDate.getDate() - 1);
+			
+		}
+	}
+	function addDay(date, monthDiv, isExtraneous = false){
+		if(typeof monthDiv === "undefined" || !monthDiv){return;}
+    var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		
+		var thisDay = date.getDate();
+		var dayName = dayNames[date.getDay()];
+		var isoDay = isoDayOrMonth(thisDay);
+		
+		var dayDiv = document.getElementById(monthDiv.id + "-" + isoDay);
+		
+		if(!dayDiv || isExtraneous){
+			dayDiv = document.createElement("div");
+			if(!isExtraneous){
+				dayDiv.id = monthDiv.id + "-" + isoDay;
+			 dayDiv.className = "day";
+				
+				dayDiv.innerHTML = dayName + "<br/>" + isoDay;
+			}else{
+				dayDiv.className = "day extraneous";
+			}
+			
+			if(monthDiv.querySelectorAll('div.day').length > 0){
+				var nextDay = monthDiv.querySelectorAll('div.day')[0];
+				monthDiv.getElementsByClassName("days")[0].insertBefore(dayDiv,nextDay);
+			}else{
+				monthDiv.getElementsByClassName("days")[0].appendChild(dayDiv);
+			}
+		}
+	}
+	function isoDayOrMonth(num){
+		dayOrMonth = num.toString();
+		if(dayOrMonth.length === 1){ dayOrMonth = 0 + dayOrMonth;}
+		return dayOrMonth;
+	}
+	document.addEventListener("DOMContentLoaded", handleLoad);
+	
+	</script>
 </head>
 <body>
-	
-	<div class="year">
-		<div class="month">		</div>
-		<div class="month">		</div>
-		<div class="month">		</div>
-		<div class="month">		</div>
-	</div>
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
