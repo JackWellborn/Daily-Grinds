@@ -1,0 +1,17 @@
+{
+	"8-6-2016": [
+			{"taste":"good"},
+			{"taste":"okay"},
+			{"taste":"okay"}
+		]	
+	,
+	"8-5-2016": [
+			{"taste":"starbucks"},
+			{"taste":"good"}
+		],
+		"7-25-2016": [
+				{"taste":"starbucks"},
+				{"taste":"good"},
+				{"taste":"good"}
+			]
+}

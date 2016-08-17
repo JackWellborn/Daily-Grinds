@@ -1,0 +1,29 @@
+{
+	"coffees":
+	[
+		{
+			"name":"Veranda Blend",
+			"roaster":"Starbucks",
+			"notes":["Light-Bodied", "Mellow"],
+			"roastDate":"Who knows",
+			"description":"In Latin America, coffee farms are often run by families, with their own homes on the same land where their coffee grows. We've sipped coffee with these farmers for decades, sitting on their verandas, overlooking the lush beauty of the coffee trees rolling out in the distance. Most times it was a lightly roasted coffee like this one. It took us more than 80 tries to get it right—mellow and flavorful with a nice softness.",
+			"rating":"Yuck. Never. Do this. Again."
+		},
+		{
+			"name":"Ethiopia Hartebeest",
+			"roaster":"Cuvee",
+			"notes":["Lemon", "Caramel", "Juniper"],
+			"roastDate":"7/26/2016",
+			"description":"From Southern Ethiopia, known as Kochere. This Coffee comes from the ECX. A zero defect top lot with delicate floral notes that give way to lemon and caramel.",
+			"rating":"Great. Very smooth and fruity."
+		},
+		{
+			"name":"Brazil Carmo De Minas",
+			"roaster":"Birch",
+			"notes":["Toffee", "Cocoa", "Rich Body"],
+			"roastDate":"7/18/2016",
+			"description":"Toffee up front, sweet lemon & cocoa with a clean finish. This is your ideal morning coffee with good body and lively flavor, serve this first thing in the morning!",
+			"rating":"Good. Full bodied with a sour note."
+		}
+	]
+}

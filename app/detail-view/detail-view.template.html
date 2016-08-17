@@ -1,0 +1,25 @@
+<div class="year">
+	<div class="month">
+		<div class="title">
+			<div class="title-text">{{$ctrl.localeDate}}</div>
+		</div>
+		<div class="days">
+			<div ng-repeat="coffee in $ctrl.coffees" class="detail">
+				<div class="detail-title">{{coffee.name}}</div>
+				<div class="detail-content">
+					<div class="detail-label">Roaster</div>
+					<div class="detail-text">{{coffee.roaster}}</div>
+					<div class="detail-label">Notes</div>
+					<div class="detail-text"><span ng-repeat="note in coffee.notes">{{note}}</span></div>
+					<div class="detail-label">Roast Dates</div>
+					<div class="detail-text">{{coffee.roastDate}}</div>
+					<div class="detail-label">Description</div>
+					<div class="detail-text">{{coffee.description}}</div>					
+					<div class="detail-label">Rating</div>
+					<div class="detail-text">{{coffee.rating}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>

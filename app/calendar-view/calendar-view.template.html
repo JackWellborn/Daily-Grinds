@@ -1,0 +1,19 @@
+<div class="year"  ng-repeat="year in $ctrl.calendar.years">
+	<div class="month" ng-repeat="month in year.months">
+		<div class="title">
+			<div class="title-text">{{month.name}}</div>
+		</div>
+		<div class="days">
+			<div class="day extraneous" ng-repeat="day in month.days | orderBy:'iso' | filter:{name:'!day'}">
+			</div>
+			<div class="day {{day.coffees.length>0?'button':''}}" ng-repeat="day in month.days | orderBy:'iso' | filter:{name:'day'}" >
+			{{day.name}} <br/> <b>{{day.iso}}</b> <br> 
+			<div ng-if="day.coffees.length>0" class="clickarea" ng-click="$ctrl.getDetails(day.localeDate)"></div>
+			<div class="bean-container"><span ng-repeat="coffee in day.coffees">
+				<img ng-src="media/{{coffee.taste}}-bean.png"/></span></div>
+				
+			</div>
+		
+		</div>
+	</div>
+</div>

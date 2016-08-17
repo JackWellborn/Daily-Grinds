@@ -1,0 +1,21 @@
+{
+	"coffees":
+	[
+		{
+			"name":"Italian Roast",
+			"roaster":"Starbucks",
+			"notes":["Roasty","Sweet"],
+			"roastDate":"Who knows.",
+			"description":"This is Starbucks quintessential dark roast—expertly crafted to bring out sweetness and intensity.",
+			"rating":"Yuck. Burnt and stale."
+		},
+		{
+			"name":"Chonti Especial",
+			"roaster":"Gorilla",
+			"notes":["Basil", "Blackberry", "Peanut Brittle", "Rosemary On The Finish"],
+			"roastDate":"8/1/2016",
+			"description":"Wasn't provided oddly",
+			"rating":"Great. Another solid one from Park Slope!"
+		}
+	]
+}

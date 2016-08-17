@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 7]>      <html lang="en" ng-app="dailyGrinds" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="dailyGrinds" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="dailyGrinds" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="dailyGrinds" class="no-js"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,89 +14,110 @@
   <link rel="stylesheet" href="css/prefixed/app.css">
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 	<script type="text/javascript">
-	function handleLoad(evt){
-		createCalendarStartingFrom();
-	}
+	
 	function createCalendarStartingFrom(startDate = new Date(2016,0,1)){
-		var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]; 
 		var thisDate = new Date();
+		var dateObjs = {};
 		while(thisDate.getDate() !== 1){
 			thisDate.setDate(thisDate.getDate() + 1);
 		}
 		thisDate.setDate(thisDate.getDate() - 1);
 		while(thisDate >= startDate){
 			var thisYear = thisDate.getFullYear();
-			var yearDiv = document.getElementById(thisYear);
-			if(!yearDiv){
-				yearDiv = document.createElement("div");
-				yearDiv.id = thisYear;
-				yearDiv.className = "year";
-				document.body.appendChild(yearDiv);
+			if(typeof dateObjs[thisYear] === "undefined"){
+				var yearObj = getYearObj(thisDate);
+				dateObjs[thisYear] = yearObj;
+				var yearDiv = addYear(yearObj, yearObj.iso);
+			}else{
+				var yearObj = dateObjs[thisYear];
+				var yearDiv = document.getElementById(yearObj.iso);
 			}
 			var thisMonth = thisDate.getMonth();
-			var monthName = monthNames[thisMonth];
-			var isoMonth = isoDayOrMonth(thisMonth + 1);
-			
-			var monthDiv = document.getElementById(thisYear + "-" + isoMonth);
-			if(!monthDiv){
-				monthDiv = document.createElement("div");
-				monthDiv.id = thisYear + "-" + isoMonth;
-				monthDiv.className = "month";
-				monthDiv.innerHTML = '<div class="title"><div class="title-text">' + monthName + '</div></div><div class="days"></div>';
-				yearDiv.appendChild(monthDiv);
+			if(typeof dateObjs[thisYear][thisMonth] === "undefined"){
+				var monthObj = getMonthObj(thisDate);
+				dateObjs[thisYear][thisMonth] = monthObj;
+				var monthDiv = addMonth(yearDiv, monthObj,(yearObj.iso + "-" + monthObj.iso));
+			}else{
+				var monthObj = dateObjs[thisYear][thisMonth];
+				var monthDiv = document.getElementById(yearObj.iso + "-" + monthObj.iso);
 			}
-			addDay(thisDate, monthDiv);
+			if((typeof dateObjs[thisYear][thisMonth][thisDate.getDate()] === "undefined")){
+				var dayObj = getDayObj(thisDate);
+				dateObjs[thisYear][thisMonth][thisDate.getDate()] = dayObj;
+				var dayDiv = addDay(monthDiv, dayObj, (yearObj.iso + "-" + monthObj.iso + "-" + dayObj.iso));
+			}else{
+				var dayObj = dateObjs[thisYear][thisMonth][thisDate];
+				var dayDiv = document.getElementById(yearObj.iso + "-" + monthObj.iso + "-" + dayObj.iso);
+			}
 			
 			if(thisDate.getDate() === 1 && thisDate.getDay() !== 0){
-				
 				var weekDate = new Date(thisDate);
 				weekDate.setDate(weekDate.getDate()-1);
 				while(weekDate.getDay() !== 6){
 					
-					addDay(weekDate, monthDiv, true);
 					weekDate.setDate(weekDate.getDate()-1);
-					console.log(monthName + " " + weekDate.getDay());
+					addDay(monthDiv);
 				}
 			}
+			
 			thisDate.setDate(thisDate.getDate() - 1);
-			
 		}
 	}
-	function addDay(date, monthDiv, isExtraneous = false){
-		if(typeof monthDiv === "undefined" || !monthDiv){return;}
-    var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-		
-		var thisDay = date.getDate();
+	function getYearObj(date){
+		return {iso:date.getFullYear.toString()};
+	}
+	function getMonthObj(date){
+		var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]; 
+		var monthName = monthNames[date.getMonth()];
+		var isoMonth = isoDayOrMonth(date.getMonth() + 1);
+		return {name:monthName, iso:isoMonth};
+	}
+	function getDayObj(date){
+		var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 		var dayName = dayNames[date.getDay()];
-		var isoDay = isoDayOrMonth(thisDay);
-		
-		var dayDiv = document.getElementById(monthDiv.id + "-" + isoDay);
-		
-		if(!dayDiv || isExtraneous){
-			dayDiv = document.createElement("div");
-			if(!isExtraneous){
-				dayDiv.id = monthDiv.id + "-" + isoDay;
-			 dayDiv.className = "day";
-				
-				dayDiv.innerHTML = dayName + "<br/>" + isoDay;
-			}else{
-				dayDiv.className = "day extraneous";
-			}
-			
-			if(monthDiv.querySelectorAll('div.day').length > 0){
-				var nextDay = monthDiv.querySelectorAll('div.day')[0];
-				monthDiv.getElementsByClassName("days")[0].insertBefore(dayDiv,nextDay);
-			}else{
-				monthDiv.getElementsByClassName("days")[0].appendChild(dayDiv);
-			}
-		}
+		var isoDay = isoDayOrMonth(date.getDate().toString());
+		return {name:dayName, iso:isoDay};
 	}
+	
+	function addYear(yearObj, id){
+		var yearDiv = document.createElement("div");
+		yearDiv.id = id;
+		yearDiv.className = "year";
+		document.body.appendChild(yearDiv);
+		return yearDiv;
+	}
+	
+	function addMonth(yearDiv, monthObj, id){
+		var monthDiv = document.createElement("div");
+		monthDiv.id = id;
+		monthDiv.className = "month";
+		monthDiv.innerHTML = '<div class="title"><div class="title-text">' + monthObj.name + '</div></div><div class="days"></div>';
+		yearDiv.appendChild(monthDiv);
+		return monthDiv;
+	}
+	function addDay(monthDiv, dayObj, id){
+		var dayDiv = document.createElement("div");
+		if(typeof dayObj !== undefined && dayObj){
+			dayDiv.id = id;
+			dayDiv.className = "day";
+			dayDiv.innerHTML = "" + dayObj.name + "<br/><b>" + dayObj.iso + "</b>";
+		}else{
+			dayDiv.className = "day extraneous";
+		}
+		if(monthDiv.querySelectorAll('div.day').length > 0){
+			var nextDay = monthDiv.querySelectorAll('div.day')[0];
+			monthDiv.getElementsByClassName("days")[0].insertBefore(dayDiv,nextDay);
+		}else{
+			monthDiv.getElementsByClassName("days")[0].appendChild(dayDiv);
+		}
+		return dayDiv;
+	}
+
 	function isoDayOrMonth(num){
 		dayOrMonth = num.toString();
 		if(dayOrMonth.length === 1){ dayOrMonth = 0 + dayOrMonth;}
 		return dayOrMonth;
 	}
-	document.addEventListener("DOMContentLoaded", handleLoad);
 	
 	</script>
 </head>
@@ -109,11 +130,18 @@
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
+	
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="app.js"></script>
+  <script src="app.module.js"></script>
+  <script src="app.config.js"></script>
+  <script src="calendar-view/calendar-view.module.js"></script>
+  <script src="calendar-view/calendar-view.component.js"></script>
+	<script src="detail-view/detail-view.module.js"></script>
+	<script src="detail-view/detail-view.component.js"></script>
   <script src="components/version/version.js"></script>
   <script src="components/version/version-directive.js"></script>
   <script src="components/version/interpolate-filter.js"></script>
+	<div ng-view></div>
 </body>
 </html>
