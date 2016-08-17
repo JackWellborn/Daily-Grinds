@@ -1,0 +1,29 @@
+{
+	"coffees":
+	[
+		{
+			"name":"Ethiopia Hartebeest",
+			"roaster":"Cuvee",
+			"notes":["Lemon", "Caramel", "Juniper"],
+			"roastDate":"7/26/2016",
+			"description":"From Southern Ethiopia, known as Kochere. This Coffee comes from the ECX. A zero defect top lot with delicate floral notes that give way to lemon and caramel.",
+			"rating":"Great. Very smooth and fruity."
+		},
+		{
+			"name":"Blendimentosis",
+			"roaster":"Gorilla",
+			"notes":["Sweet", "Well-Banaced"],
+			"roastDate":"8/1/2016",
+			"description":"This is our signature blend. We change it throughout the seasons and throughout the years, but we always strive for one thing: a sweet, well-balanced coffee that is interesting but has mass appeal.Blendimentosis is a constant work in progress, even...",
+			"rating":"Good."
+		},
+		{
+			"name":"Brazil Carmo De Minas",
+			"roaster":"Birch",
+			"notes":["Toffee", "Cocoa", "Rich Body"],
+			"roastDate":"7/18/2016",
+			"description":"Toffee up front, sweet lemon & cocoa with a clean finish. This is your ideal morning coffee with good body and lively flavor, serve this first thing in the morning!",
+			"rating":"Good. Full bodied with a sour note."
+		}
+	]
+}
