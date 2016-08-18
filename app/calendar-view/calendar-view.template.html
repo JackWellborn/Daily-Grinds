@@ -1,13 +1,24 @@
+<!-- Loop through calendar object and create year ui elements -->
 <div class="year"  ng-repeat="year in $ctrl.calendar.years">
+	<!-- Loop through year object and create month ui elements -->
 	<div class="month" ng-repeat="month in year.months">
 		<div class="title">
 			<div class="title-text">{{month.name}}</div>
 		</div>
 		<div class="days">
+			<!-- Loop through month object and create extraneous day ui elements. 
+				Order by their iso date (which are negative or 0 for extraneous days) to start at beginning of the month.
+				Only count days with out a name by filtering out an day names with 'day' -->
 			<div class="day extraneous" ng-repeat="day in month.days | orderBy:'iso' | filter:{name:'!day'}">
 			</div>
+			<!-- Loop through month object and create actual day ui elements. 
+				Order by their iso date to start at beginning of the month.
+				Only count days with a name.
+				If this day has coffee data, add button styling. -->
 			<div class="day {{day.coffees.length>0?'button':''}}" ng-repeat="day in month.days | orderBy:'iso' | filter:{name:'day'}" >
 			{{day.name}} <br/> <b>{{day.iso}}</b> <br> 
+			
+			<!-- Also if day has coffee data, add click area and beans to represent data-->
 			<div ng-if="day.coffees.length>0" class="clickarea" ng-click="$ctrl.getDetails(day.localeDate)"></div>
 			<div class="bean-container"><span ng-repeat="coffee in day.coffees">
 				<img ng-src="media/{{coffee.taste}}-bean.png"/></span></div>

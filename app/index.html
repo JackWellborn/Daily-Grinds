@@ -15,7 +15,7 @@
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 	<script type="text/javascript">
 	
-	function createCalendarStartingFrom(startDate = new Date(2016,0,1)){
+	function createCalendarStartingFrom(){
 		var thisDate = new Date();
 		var dateObjs = {};
 		while(thisDate.getDate() !== 1){
@@ -113,11 +113,7 @@
 		return dayDiv;
 	}
 
-	function isoDayOrMonth(num){
-		dayOrMonth = num.toString();
-		if(dayOrMonth.length === 1){ dayOrMonth = 0 + dayOrMonth;}
-		return dayOrMonth;
-	}
+
 	
 	</script>
 </head>

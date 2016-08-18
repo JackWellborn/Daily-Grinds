@@ -1,9 +1,11 @@
 <div class="year">
 	<div class="month">
 		<div class="title">
+			<!-- Title of detail is date -->
 			<div class="title-text">{{$ctrl.localeDate}}</div>
 		</div>
 		<div class="days">
+			<!-- Add details for each coffee entry -->
 			<div ng-repeat="coffee in $ctrl.coffees" class="detail">
 				<div class="detail-title">{{coffee.name}}</div>
 				<div class="detail-content">
